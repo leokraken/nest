@@ -3,7 +3,7 @@ import { Cat } from './interfaces/cat.interface';
 
 @Component()
 export class CatsService {
-  private readonly cats: Cat[] = [{ id: 1, name: 'Cat', age: 5 }];
+  private readonly cats: Cat[] = [{ id: 1, name: 'Cat', age: 5, humanId: 10 }];
 
   create(cat: Cat) {
     this.cats.push(cat);
@@ -15,5 +15,9 @@ export class CatsService {
 
   findOneById(id: number): Cat {
     return this.cats.find(cat => cat.id === id);
+  }
+
+  findByHumanId(id: number): Cat {
+    return this.cats.find(cat => cat.humanId === id)
   }
 }

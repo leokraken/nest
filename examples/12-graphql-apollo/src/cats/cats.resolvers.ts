@@ -17,8 +17,13 @@ export class CatsResolvers {
   }
 
   @Query('cat')
-  async findOneById(id: number) {
-    return await this.catsService.findOneById(id);
+  async findOneById(request, args: any) {
+    return await this.catsService.findOneById(Number(args.id));
+  }
+
+  @Query()
+  async catByHumanId(request, args: any) {
+    return await this.catsService.findByHumanId(Number(args.id));
   }
 
   @Mutation('createCat')
@@ -26,17 +31,17 @@ export class CatsResolvers {
     await this.catsService.create(cat);
   }
 
-  @DelegateProperty('human')
-  findHumansById() {
+  @DelegateProperty('address')
+  getAddress() {
     return (mergeInfo: MergeInfo) => ({
-      fragment: `fragment CatFragment on Cat { humanId }`,
+      fragment: `fragment CatFragment on Cat { id }`,
       resolve(parent, args, context, info) {
-        const humanId = parent.id;
+        console.log(parent)
         return mergeInfo.delegate(
           'query',
-          'humanById',
+          'Address',
           {
-            id: humanId,
+            locale: 'es',
           },
           context,
           info,
